@@ -14,7 +14,7 @@ contract Variables {
         IAaveV3DataProvider(0x69FA688f1Dc47d4B5d8029D5a35FB7a548310654);
 
     address private flashloanAggregatorAddr =
-        0x2b65731A085B55DBe6c7DcC8D717Ac36c00F6d19;
+        0x2b65731A085B55DBe6c7DcC8D717Ac36c00F6d19; // TODO: update after deploy aggregator
     InstaFlashloanAggregatorInterface internal flashloanAggregator =
         InstaFlashloanAggregatorInterface(flashloanAggregatorAddr);
 }

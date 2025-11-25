@@ -59,12 +59,8 @@ contract FlashAggregatorAvalanche is Helper {
         }
         safeTransfer(instaLoanVariables_, sender_);
 
-        if (checkIfDsa(sender_)) {
-            Address.functionCall(sender_, data_, "DSA-flashloan-fallback-failed");
-        } else {
-            InstaFlashReceiverInterface(sender_).executeOperation(_assets, _amounts, instaLoanVariables_._instaFees, sender_, data_);
-        }
-
+        InstaFlashReceiverInterface(sender_).executeOperation(_assets, _amounts, instaLoanVariables_._instaFees, sender_, data_);
+        
         instaLoanVariables_._finBals = calculateBalances(_assets, address(this));
         validateFlashloan(instaLoanVariables_);
 

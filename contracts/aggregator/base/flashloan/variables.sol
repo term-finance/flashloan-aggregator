@@ -10,10 +10,7 @@ contract ConstantVariables {
         IAaveV3Lending(aaveV3LendingAddr);
 
     address public constant treasuryAddr =
-        0xF1229410497686300cca7Bf6CCa3ba582cF872f7;
-    address private constant instaListAddr =
-        0x9926955e0Dd681Dc303370C52f4Ad0a4dd061687;
-    ListInterface public constant instaList = ListInterface(instaListAddr);
+        0x0842FdFB5940ef6a4EA6c5DEE024EEC1dDc6977d;
 
     bytes32 internal constant POOL_INIT_CODE_HASH =
         0xe34f199b19b2b4f47f68442619d555527d244f78a3297ea89325f843f87b8b54;

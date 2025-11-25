@@ -54,22 +54,14 @@ contract FlashAggregatorArbitrum is Helper {
 
         safeTransfer(instaLoanVariables_, sender_);
 
-        if (checkIfDsa(sender_)) {
-            Address.functionCall(
-                sender_,
-                data_,
-                "DSA-flashloan-fallback-failed"
-            );
-        } else {
-            InstaFlashReceiverInterface(sender_).executeOperation(
-                instaLoanVariables_._tokens,
-                _amounts,
-                instaLoanVariables_._instaFees,
-                sender_,
-                data_
-            );
-        }
-
+        InstaFlashReceiverInterface(sender_).executeOperation(
+            instaLoanVariables_._tokens,
+            _amounts,
+            instaLoanVariables_._instaFees,
+            sender_,
+            data_
+        );
+        
         instaLoanVariables_._finBals = calculateBalances(
             instaLoanVariables_._tokens,
             address(this)
@@ -131,23 +123,15 @@ contract FlashAggregatorArbitrum is Helper {
 
         safeTransfer(instaLoanVariables_, uniswapFlashData_.sender);
 
-        if (checkIfDsa(uniswapFlashData_.sender)) {
-            Address.functionCall(
+        InstaFlashReceiverInterface(uniswapFlashData_.sender)
+            .executeOperation(
+                instaLoanVariables_._tokens,
+                instaLoanVariables_._amounts,
+                instaLoanVariables_._instaFees,
                 uniswapFlashData_.sender,
-                uniswapFlashData_.data,
-                "DSA-flashloan-fallback-failed"
+                uniswapFlashData_.data
             );
-        } else {
-            InstaFlashReceiverInterface(uniswapFlashData_.sender)
-                .executeOperation(
-                    instaLoanVariables_._tokens,
-                    instaLoanVariables_._amounts,
-                    instaLoanVariables_._instaFees,
-                    uniswapFlashData_.sender,
-                    uniswapFlashData_.data
-                );
-        }
-
+    
         instaLoanVariables_._finBals = calculateBalances(
             instaLoanVariables_._tokens,
             address(this)
@@ -212,22 +196,14 @@ contract FlashAggregatorArbitrum is Helper {
         safeApprove(instaLoanVariables_, _premiums, aaveV3LendingAddr);
         safeTransfer(instaLoanVariables_, sender_);
 
-        if (checkIfDsa(sender_)) {
-            Address.functionCall(
-                sender_,
-                data_,
-                "DSA-flashloan-fallback-failed"
-            );
-        } else {
-            InstaFlashReceiverInterface(sender_).executeOperation(
-                _assets,
-                _amounts,
-                instaLoanVariables_._instaFees,
-                sender_,
-                data_
-            );
-        }
-
+        InstaFlashReceiverInterface(sender_).executeOperation(
+            _assets,
+            _amounts,
+            instaLoanVariables_._instaFees,
+            sender_,
+            data_
+        );
+        
         instaLoanVariables_._finBals = calculateBalances(
             _assets,
             address(this)

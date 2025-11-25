@@ -231,15 +231,6 @@ contract Helper is Variables {
         return (_tokens, _amounts);
     }
 
-    /**
-     * @dev Returns to true if the passed address is a DSA else returns false.
-     * @notice Returns to true if the passed address is a DSA else returns false.
-     * @param _account account to check for, if DSA.
-     */
-    function checkIfDsa(address _account) internal view returns (bool) {
-        return instaList.accountID(_account) > 0;
-    }
-
     /// @notice Deterministically computes the pool address given the factory and PoolKey
     /// @param factory The Uniswap V3 factory contract address
     /// @param key The PoolKey
