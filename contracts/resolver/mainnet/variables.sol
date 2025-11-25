@@ -42,7 +42,7 @@ contract Variables {
         0x4Ddc2D193948926D02f9B1fE9e1daa0718270ED5;
 
     address private flashloanAggregatorAddr =
-        0x619Ad2D02dBeE6ebA3CDbDA3F98430410e892882;
+        0x619Ad2D02dBeE6ebA3CDbDA3F98430410e892882; //TODO: change this to deployed flash loan aggregator address
     InstaFlashloanAggregatorInterface internal flashloanAggregator =
         InstaFlashloanAggregatorInterface(flashloanAggregatorAddr);
 

@@ -4,7 +4,7 @@ pragma solidity ^0.8.0;
 import "./helpers.sol";
 import "@openzeppelin/contracts/utils/Address.sol";
 
-contract FlashAggregatorOptimism is Helper {
+contract FlashAggregatorSepolia is Helper {
     using SafeERC20 for IERC20;
 
     event LogFlashloan(
@@ -64,22 +64,16 @@ contract FlashAggregatorOptimism is Helper {
 
         safeTransfer(instaLoanVariables_, uniswapFlashData_.sender);
 
-        if (checkIfDsa(uniswapFlashData_.sender)) {
-            Address.functionCall(
+       
+        InstaFlashReceiverInterface(uniswapFlashData_.sender)
+            .executeOperation(
+                instaLoanVariables_._tokens,
+                instaLoanVariables_._amounts,
+                instaLoanVariables_._instaFees,
                 uniswapFlashData_.sender,
-                uniswapFlashData_.data,
-                "DSA-flashloan-fallback-failed"
+                uniswapFlashData_.data
             );
-        } else {
-            InstaFlashReceiverInterface(uniswapFlashData_.sender)
-                .executeOperation(
-                    instaLoanVariables_._tokens,
-                    instaLoanVariables_._amounts,
-                    instaLoanVariables_._instaFees,
-                    uniswapFlashData_.sender,
-                    uniswapFlashData_.data
-                );
-        }
+        
 
         instaLoanVariables_._finBals = calculateBalances(
             instaLoanVariables_._tokens,
@@ -318,11 +312,11 @@ contract FlashAggregatorOptimism is Helper {
     }
 }
 
-contract InstaFlashAggregatorOptimism is FlashAggregatorOptimism {
-    // function initialize() public {
-    //     require(status == 0, "cannot-call-again");
-    //     status = 1;
-    // }
+contract InstaFlashAggregatorSepolia is FlashAggregatorSepolia {
+    function initialize() public {
+         require(status == 0, "cannot-call-again");
+         status = 1;
+    }
 
     receive() external payable {}
 }

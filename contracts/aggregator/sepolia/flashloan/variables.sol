@@ -4,29 +4,15 @@ pragma solidity ^0.8.0;
 import "./interfaces.sol";
 
 contract ConstantVariables {
-    address public constant aaveV2LendingAddr =
-        0x8dFf5E27EA6b7AC08EbFdf9eB090F32ee9a30fcf;
-    IAaveLending public constant aaveV2Lending =
-        IAaveLending(aaveV2LendingAddr);
-
     address public constant aaveV3LendingAddr =
         0x794a61358D6845594F94dc1DB02A252b5b4814aD;
     IAaveV3Lending public constant aaveV3Lending =
         IAaveV3Lending(aaveV3LendingAddr);
 
-    address public constant balancerLendingAddr =
-        0xBA12222222228d8Ba445958a75a0704d566BF2C8;
-    IBalancerLending public constant balancerLending =
-        IBalancerLending(balancerLendingAddr);
-
-    address public constant wEthToken =
-        0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619;
-    uint256 public constant wethBorrowAmountPercentage = 80;
-
     address public constant treasuryAddr =
-        0x6e9d36eaeC63Bc3aD4A47fb0d7826A9922AAfC22;
+        0xe73D1f06C2CA358Ab48a3011e06e83F79F8A26cD;
     address private constant instaListAddr =
-        0x839c2D3aDe63DF5b0b8F3E57D5e145057Ab41556;
+        0x9926955e0Dd681Dc303370C52f4Ad0a4dd061687;
     ListInterface public constant instaList = ListInterface(instaListAddr);
 
     bytes32 internal constant POOL_INIT_CODE_HASH =
@@ -34,7 +20,7 @@ contract ConstantVariables {
 
     uint256 public constant InstaFeeBPS = 5; // in BPS; 1 BPS = 0.01%
     address public constant uniswapFactoryAddr =
-        0x1F98431c8aD98523631AE4a59f267346ea31F984;
+        0x0227628f3F023bb0B980b67D528571c95c6DaC1c;
 }
 
 contract Variables is ConstantVariables {

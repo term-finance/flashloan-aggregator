@@ -147,21 +147,15 @@ contract FlashAggregator is Setups {
 
         safeTransfer(instaLoanVariables_, helper.sender_);
 
-        if (checkIfDsa(helper.sender_)) {
-            Address.functionCall(
-                helper.sender_,
-                helper.data_,
-                "DSA-flashloan-fallback-failed"
-            );
-        } else {
-            InstaFlashReceiverInterface(helper.sender_).executeOperation(
-                helper.tokens_,
-                helper.amounts_,
-                instaLoanVariables_._instaFees,
-                helper.sender_,
-                helper.data_
-            );
-        }
+    
+        InstaFlashReceiverInterface(helper.sender_).executeOperation(
+            helper.tokens_,
+            helper.amounts_,
+            instaLoanVariables_._instaFees,
+            helper.sender_,
+            helper.data_
+        );
+        
 
         instaLoanVariables_._finBals = calculateBalances(
             helper.tokens_,
@@ -222,21 +216,14 @@ contract FlashAggregator is Setups {
         if (route_ == 2) {
             safeTransfer(instaLoanVariables_, sender_);
 
-            if (checkIfDsa(sender_)) {
-                Address.functionCall(
-                    sender_,
-                    data_,
-                    "DSA-flashloan-fallback-failed"
-                );
-            } else {
-                InstaFlashReceiverInterface(sender_).executeOperation(
-                    tokens_,
-                    amounts_,
-                    instaLoanVariables_._instaFees,
-                    sender_,
-                    data_
-                );
-            }
+            InstaFlashReceiverInterface(sender_).executeOperation(
+                tokens_,
+                amounts_,
+                instaLoanVariables_._instaFees,
+                sender_,
+                data_
+            );
+            
         } else if (route_ == 3 || route_ == 4) {
             require(_fee == 0, "flash-DAI-fee-not-0");
 
@@ -271,21 +258,14 @@ contract FlashAggregator is Setups {
 
             safeTransfer(instaLoanVariables_, sender_);
 
-            if (checkIfDsa(sender_)) {
-                Address.functionCall(
-                    sender_,
-                    data_,
-                    "DSA-flashloan-fallback-failed"
-                );
-            } else {
-                InstaFlashReceiverInterface(sender_).executeOperation(
-                    tokens_,
-                    amounts_,
-                    instaLoanVariables_._instaFees,
-                    sender_,
-                    data_
-                );
-            }
+          
+            InstaFlashReceiverInterface(sender_).executeOperation(
+                tokens_,
+                amounts_,
+                instaLoanVariables_._instaFees,
+                sender_,
+                data_
+            );
 
             if (route_ == 3) {
                 spell(
@@ -373,21 +353,15 @@ contract FlashAggregator is Setups {
                 wstEthToken.unwrap(_amounts[0]);
             }
             safeTransfer(instaLoanVariables_, helper.sender_);
-            if (checkIfDsa(helper.sender_)) {
-                Address.functionCall(
-                    helper.sender_,
-                    helper.data_,
-                    "DSA-flashloan-fallback-failed"
-                );
-            } else {
-                InstaFlashReceiverInterface(helper.sender_).executeOperation(
-                    helper.tokens_,
-                    helper.amounts_,
-                    instaLoanVariables_._instaFees,
-                    helper.sender_,
-                    helper.data_
-                );
-            }
+         
+            InstaFlashReceiverInterface(helper.sender_).executeOperation(
+                helper.tokens_,
+                helper.amounts_,
+                instaLoanVariables_._instaFees,
+                helper.sender_,
+                helper.data_
+            );
+            
             if (helper.tokens_[0] == stEthTokenAddr) {
                 wstEthToken.wrap(helper.amounts_[0]);
             }
@@ -442,21 +416,14 @@ contract FlashAggregator is Setups {
 
             safeTransfer(instaLoanVariables_, helper.sender_);
 
-            if (checkIfDsa(helper.sender_)) {
-                Address.functionCall(
-                    helper.sender_,
-                    helper.data_,
-                    "DSA-flashloan-fallback-failed"
-                );
-            } else {
-                InstaFlashReceiverInterface(helper.sender_).executeOperation(
-                    helper.tokens_,
-                    helper.amounts_,
-                    instaLoanVariables_._instaFees,
-                    helper.sender_,
-                    helper.data_
-                );
-            }
+            InstaFlashReceiverInterface(helper.sender_).executeOperation(
+                helper.tokens_,
+                helper.amounts_,
+                instaLoanVariables_._instaFees,
+                helper.sender_,
+                helper.data_
+            );
+            
 
             if (helper.route_ == 6) {
                 spell(
@@ -529,22 +496,15 @@ contract FlashAggregator is Setups {
 
         if (route_ == 11){
             safeTransfer(instaLoanVariables_, sender_);
-
-            if (checkIfDsa(sender_)) {
-                Address.functionCall(
-                    sender_,
-                    data_,
-                    "DSA-flashloan-fallback-failed"
-                );
-            } else {
-                InstaFlashReceiverInterface(sender_).executeOperation(
-                    tokens_,
-                    amounts_,
-                    instaLoanVariables_._instaFees,
-                    sender_,
-                    data_
-                );
-            }
+           
+        InstaFlashReceiverInterface(sender_).executeOperation(
+            tokens_,
+            amounts_,
+            instaLoanVariables_._instaFees,
+            sender_,
+            data_
+        );
+            
         } else {
             revert("wrong-route");
         }
