@@ -13,7 +13,7 @@ contract Variables {
     InstaFlashloanAggregatorInterface internal flashloanAggregator =
         InstaFlashloanAggregatorInterface(flashloanAggregatorAddr);
     
-    address public constant wXPLAddr = 0x6100E367285b01F48D07953803A2d8dCA5D19873;
+    address public constant wethAddr = 0x9895D81bB462A195b4922ED7De0e3ACD007c32CB;
     address public constant usdt0Addr = 0xB8CE59FC3717ada4C02eaDF9682A9e934F625ebb;
    
     address public constant uniswapFactoryAddr = 0xcb2436774C3e191c85056d248EF4260ce5f27A9D; 

@@ -110,7 +110,7 @@ contract Helper is Variables {
 
             address[] memory checkTokens_ = new address[](2);
             checkTokens_[0] = usdt0Addr;
-            checkTokens_[1] = wXPLAddr;
+            checkTokens_[1] = wethAddr;
 
             uint24[] memory checkFees_ = new uint24[](3);
             checkFees_[0] = 100;
