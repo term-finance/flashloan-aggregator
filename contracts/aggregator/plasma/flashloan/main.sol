@@ -235,7 +235,7 @@ contract FlashAggregatorPlasma is Helper {
             _modes,
             address(0),
             data_,
-            3228
+            0
         );
     }
 
@@ -303,7 +303,7 @@ contract FlashAggregatorPlasma is Helper {
     }
 }
 
-contract InstaFlashAggregatorBase is FlashAggregatorBase {
+contract InstaFlashAggregatorPlasma is FlashAggregatorPlasma {
     function initialize() public {
         require(status == 0, "cannot-call-again");
         status = 1;

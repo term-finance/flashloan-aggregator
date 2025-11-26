@@ -91,6 +91,6 @@ contract FlashResolverPlasma is Helper {
     }
 }
 
-contract InstaFlashResolverBase is FlashResolverPlasma {
+contract InstaFlashResolverPlasma is FlashResolverPlasma {
     receive() external payable {}
 }

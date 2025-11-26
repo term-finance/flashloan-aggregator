@@ -82,7 +82,7 @@ contract FlashAggregatorAvalanche is Helper {
             _modes[i]=0;
         }
         dataHash = bytes32(keccak256(data_));
-        aaveV2Lending.flashLoan(address(this), _tokens, _amounts, _modes, address(0), data_, 3228);
+        aaveV2Lending.flashLoan(address(this), _tokens, _amounts, _modes, address(0), data_, 0);
     }
 
     /**
@@ -100,7 +100,7 @@ contract FlashAggregatorAvalanche is Helper {
             _modes[i]=0;
         }
         dataHash = bytes32(keccak256(data_));
-        aaveV3Lending.flashLoan(address(this), _tokens, _amounts, _modes, address(0), data_, 3228);
+        aaveV3Lending.flashLoan(address(this), _tokens, _amounts, _modes, address(0), data_, 0);
     }
 
     /**
