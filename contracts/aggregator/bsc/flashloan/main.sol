@@ -3,7 +3,6 @@ pragma solidity ^0.8.0;
 
 import "./helpers.sol";
 import "@openzeppelin/contracts/utils/Address.sol";
-import "hardhat/console.sol";
 
 contract FlashAggregatorBSC is Helper {
     using SafeERC20 for IERC20;
@@ -238,7 +237,7 @@ contract FlashAggregatorBSC is Helper {
         validateTokens(_tokens);
 
         if (_route == 12) {
-            routePancakeSwap(_tokens, _amounts, _data, _instadata);(_tokens, _amounts, _data, _instadata);
+            routePancakeSwap(_tokens, _amounts, _data, _instadata);
         } else if (_route == 9) {
             routeAaveV3(_tokens, _amounts, _data);
         } else {
