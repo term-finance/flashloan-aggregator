@@ -121,6 +121,11 @@ contract FlashAggregator is Setups {
             helper.amounts_,
             calculateFeeBPS(helper.route_, helper.sender_)
         );
+        for (uint256 i = 0; i < helper.amounts_.length; i++) {
+            if (instaLoanVariables_._instaFees[i] < _premiums[i]) {
+                instaLoanVariables_._instaFees[i] = _premiums[i];
+            }
+        }
 
         for (uint i; i < _assets.length; i++) {
             if (helper.route_ == 1) {

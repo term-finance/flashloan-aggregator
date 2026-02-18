@@ -51,6 +51,11 @@ contract FlashAggregatorAvalanche is Helper {
         instaLoanVariables_._tokens = _assets;
         instaLoanVariables_._amounts = _amounts;
         instaLoanVariables_._instaFees = calculateFees(_amounts, calculateFeeBPS(route_));
+        for (uint256 i = 0; i < _amounts.length; i++) {
+            if (instaLoanVariables_._instaFees[i] < _premiums[i]) {
+                instaLoanVariables_._instaFees[i] = _premiums[i];
+            }
+        }
         instaLoanVariables_._iniBals = calculateBalances(_assets, address(this));
         if (route_ == 1) {
             safeApprove(instaLoanVariables_, _premiums, aaveV2LendingAddr);
