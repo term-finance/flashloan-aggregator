@@ -188,6 +188,11 @@ contract FlashAggregatorArbitrum is Helper {
             _amounts,
             calculateFeeBPS(9)
         );
+        for (uint256 i = 0; i < _amounts.length; i++) {
+            if (instaLoanVariables_._instaFees[i] < _premiums[i]) {
+                instaLoanVariables_._instaFees[i] = _premiums[i];
+            }
+        }
         instaLoanVariables_._iniBals = calculateBalances(
             _assets,
             address(this)

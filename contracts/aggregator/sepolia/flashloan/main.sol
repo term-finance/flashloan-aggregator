@@ -130,6 +130,11 @@ contract FlashAggregatorSepolia is Helper {
             _amounts,
             calculateFeeBPS(9)
         );
+        for (uint256 i = 0; i < _amounts.length; i++) {
+            if (instaLoanVariables_._instaFees[i] < _premiums[i]) {
+                instaLoanVariables_._instaFees[i] = _premiums[i];
+            }
+        }
         instaLoanVariables_._iniBals = calculateBalances(
             _assets,
             address(this)
@@ -137,23 +142,15 @@ contract FlashAggregatorSepolia is Helper {
 
         safeApprove(instaLoanVariables_, _premiums, aaveV3LendingAddr);
         safeTransfer(instaLoanVariables_, sender_);
-
-        if (checkIfDsa(sender_)) {
-            Address.functionCall(
-                sender_,
-                data_,
-                "DSA-flashloan-fallback-failed"
-            );
-        } else {
-            InstaFlashReceiverInterface(sender_).executeOperation(
-                _assets,
-                _amounts,
-                instaLoanVariables_._instaFees,
-                sender_,
-                data_
-            );
-        }
-
+  
+        InstaFlashReceiverInterface(sender_).executeOperation(
+            _assets,
+            _amounts,
+            instaLoanVariables_._instaFees,
+            sender_,
+            data_
+        );
+        
         instaLoanVariables_._finBals = calculateBalances(
             _assets,
             address(this)
@@ -249,6 +246,100 @@ contract FlashAggregatorSepolia is Helper {
     }
 
     /**
+     * @dev Fallback function for morpho flashloan.
+     * @notice Fallback function for morpho flashloan.
+     * @param _assets The amount of assets to be repaid.
+     * @param _data extra data passed (includes route info as well).
+     */
+    function onMorphoFlashLoan(
+        uint256 _assets,
+        bytes calldata _data
+    ) external verifyDataHash(_data) returns (bool) {
+        require(msg.sender == address(morpho), "not-morpho-sender");
+
+        FlashloanVariables memory instaLoanVariables_;
+
+        (
+            uint256 route_,
+            address[] memory tokens_,
+            uint256[] memory amounts_,
+            address sender_,
+            bytes memory data_
+        ) = abi.decode(_data, (uint256, address[], uint256[], address, bytes));
+
+        instaLoanVariables_._tokens = tokens_;
+        instaLoanVariables_._amounts = amounts_;
+        instaLoanVariables_._iniBals = calculateBalances(
+            tokens_,
+            address(this)
+        );
+
+        instaLoanVariables_._instaFees = calculateFees(
+            amounts_,
+            calculateFeeBPS(route_)
+        );
+
+        if (route_ == 11) {
+            safeTransfer(instaLoanVariables_, sender_);
+
+        
+            InstaFlashReceiverInterface(sender_).executeOperation(
+                tokens_,
+                amounts_,
+                instaLoanVariables_._instaFees,
+                sender_,
+                data_
+            );
+            
+        } else {
+            revert("wrong-route");
+        }
+
+        instaLoanVariables_._finBals = calculateBalances(
+            tokens_,
+            address(this)
+        );
+
+        validateFlashloan(instaLoanVariables_);
+
+        // Final approval to transfer tokens to MORPHO
+        IERC20(tokens_[0]).approve(address(morpho), _assets);
+
+        return true;
+    }
+
+    /**
+     * @dev Middle function for route 11.
+     * @notice Middle function for route 11.
+     * @param _token token address for flashloan.
+     * @param _amount amount for flashloan.
+     * @param _data extra data passed.
+     */
+    function routeMorpho(
+        address _token,
+        uint256 _amount,
+        bytes memory _data
+    ) internal {
+        address[] memory tokens_ = new address[](1);
+        uint256[] memory amounts_ = new uint256[](1);
+        tokens_[0] = _token;
+        amounts_[0] = _amount;
+        bytes memory data_ = abi.encode(
+            11,
+            tokens_,
+            amounts_,
+            msg.sender,
+            _data
+        );
+        dataHash = bytes32(keccak256(data_));
+        morpho.flashLoan(
+            _token,
+            _amount,
+            data_
+        );
+    }
+
+    /**
      * @dev Main function for flashloan for all routes. Calls the middle functions according to routes.
      * @notice Main function for flashloan for all routes. Calls the middle functions according to routes.
      * @param _tokens token addresses for flashloan.
@@ -272,6 +363,8 @@ contract FlashAggregatorSepolia is Helper {
             routeUniswap(_tokens, _amounts, _data, _instadata);
         } else if (_route == 9) {
             routeAaveV3(_tokens, _amounts, _data);
+        } else if (_route == 11) {
+            routeMorpho(_tokens[0], _amounts[0], _data);
         } else {
             revert("route-does-not-exist");
         }
@@ -284,9 +377,10 @@ contract FlashAggregatorSepolia is Helper {
      * @notice Function to get the list of available routes.
      */
     function getRoutes() public pure returns (uint16[] memory routes_) {
-        routes_ = new uint16[](2);
+        routes_ = new uint16[](3);
         routes_[0] = 8;
         routes_[1] = 9;
+        routes_[2] = 11;
     }
 
     /**
