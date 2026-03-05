@@ -909,28 +909,25 @@ contract FlashAggregator is Setups {
 contract InstaFlashAggregator is FlashAggregator {
     using SafeERC20 for IERC20;
 
-    /* 
-     Deprecated
-    */
-    // function initialize(address[] memory _ctokens, address owner_) public {
-    //     require(status == 0, "cannot-call-again");
-    //     require(stETHStatus == 0, "only-once");
-    //     require(ownerStatus == 0, "only-once");
-    //     IERC20(daiTokenAddr).safeApprove(address(makerLending), type(uint256).max);
-    //     addTokenToCToken(_ctokens);
-    //     address[] memory cTokens_ = new address[](2);
-    //     cTokens_[0] = cethTokenAddr;
-    //     cTokens_[1] = cdaiTokenAddr;
-    //     uint256[] memory errors_ = troller.enterMarkets(cTokens_);
-    //     for(uint256 j = 0; j < errors_.length; j++){
-    //         require(errors_[j] == 0, "Comptroller.enterMarkets failed.");
-    //     }
-    //     IERC20(stEthTokenAddr).safeApprove(address(wstEthToken), type(uint256).max);
-    //     owner = owner_;
-    //     ownerStatus = 1;
-    //     stETHStatus = 1;
-    //     status = 1;
-    // }
+    function initialize(address[] memory _ctokens, address owner_) public {
+        require(status == 0, "cannot-call-again");
+        require(stETHStatus == 0, "only-once");
+        require(ownerStatus == 0, "only-once");
+        IERC20(daiTokenAddr).safeApprove(address(makerLending), type(uint256).max);
+        addTokenToCToken(_ctokens);
+        address[] memory cTokens_ = new address[](2);
+        cTokens_[0] = cethTokenAddr;
+        cTokens_[1] = cdaiTokenAddr;
+        uint256[] memory errors_ = troller.enterMarkets(cTokens_);
+        for(uint256 j = 0; j < errors_.length; j++){
+            require(errors_[j] == 0, "Comptroller.enterMarkets failed.");
+        }
+        IERC20(stEthTokenAddr).safeApprove(address(wstEthToken), type(uint256).max);
+        owner = owner_;
+        ownerStatus = 1;
+        stETHStatus = 1;
+        status = 1;
+    }
 
     /* 
      Deprecated

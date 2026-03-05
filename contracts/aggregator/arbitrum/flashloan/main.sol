@@ -398,13 +398,10 @@ contract FlashAggregatorArbitrum is Helper {
 }
 
 contract InstaFlashAggregatorArbitrum is FlashAggregatorArbitrum {
-    /* 
-     Deprecated
-    */
-    // function initialize() public {
-    //     require(status == 0, "cannot-call-again");
-    //     status = 1;
-    // }
+    function initialize() public {
+        require(status == 0, "cannot-call-again");
+        status = 1;
+    }
 
     receive() external payable {}
 }
